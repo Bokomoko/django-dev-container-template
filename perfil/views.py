@@ -76,17 +76,13 @@ def cadastrar_categoria(request):
     # for each named field there is a key in the dictionary
     # to access the fields value use the .get() method with the name of the field
     categoria = request.POST.get('categoria').strip()
+    essencial = bool(request.POST.get('essencial'))
+
     jatem = Categoria.objects.filter(categoria=categoria)
     if len(jatem) > 0:
         messages.add_message(request, constants.ERROR,
                              'Categoria já existe')
         return redirect('/perfil/gerenciar')
-    essencial = request.POST.get('essencial')
-    if type(essencial) == str:
-        essencial = True
-    else:
-        essencial = False
-
     if len(categoria) == 0:
         messages.add_message(request, constants.ERROR,
                              'Categoria em branco não pode!')

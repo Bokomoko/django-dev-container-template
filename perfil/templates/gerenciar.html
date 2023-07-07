@@ -97,6 +97,9 @@
         <div class="lista-contas-main">
           {% for categoria in categorias %}
           <span>{{categoria.categoria}}</span>
+          <a href="#"><img src="{%if categoria.essencial %}  {% static 'perfil/img/check.png' %} {% else %}
+            {% static 'perfil/img/exit.png' %}  {% endif %}" width="5%"></a>
+
           <br>
           {% endfor %}
         </div>
