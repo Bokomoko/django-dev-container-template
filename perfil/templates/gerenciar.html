@@ -3,7 +3,6 @@
 {% block 'head' %}
 
 <link href="{% static 'perfil/css/home.css' %}" rel="stylesheet">
-<link href="{% static 'perfil/css/gerenciar.css' %}" rel="stylesheet">
 
 {% endblock %}
 
@@ -12,27 +11,32 @@
 <br>
 <div class="container">
   <div class="row">
+    {% if messages %}
+    {% for message in messages %}
+    <div class="alert {{ message.tags }}">{{message}}</div>
+    {% endfor %}
+    {% endif %}
     <div class="col-md-5">
       <p class="fonte-destaque">Suas contas</p>
       <hr>
 
       <div class="contas">
-
-
+        {% for conta in contas %}
         <div class="lista-contas-main">
-          <span><img width="10%" src="#">&nbsp&nbspNubank</span>
+          <span><img width="10%" src="{{conta.icone.url}}">{{ conta.apelido }}</span>
 
-          <span class="total-conta positivo ">R$ 1.800,00&nbsp&nbsp&nbsp <a href="#"><img
+          <span class="total-conta positivo ">{{conta.valor}}<a href="#"><img
                 src="{% static 'perfil/img/exit.png' %}"></a></span>
+          <br>
         </div>
-        <br>
+        {% endfor %}
 
 
       </div>
 
       <hr>
       <span class="fonte-destaque">Total:</span>
-      <span class="positivo total-conta font-destaque">R$ 1.800,00</span>
+      <span class="positivo total-conta font-destaque">R$ {{total_contas}}</span>
     </div>
 
     <div class="col-md-2"></div>
@@ -58,7 +62,7 @@
         <label>Valor</label>
         <input type="number" name="valor" class="form-control" placeholder="">
         <br>
-        <input type="file" placeholder="Ícone" name="icone">
+        <input type="file" placeholder="Ícone" name="icone" required>
         <br>
         <br>
         <input style="width: 100%" type="submit" class="botao-principal" value="Enviar">
