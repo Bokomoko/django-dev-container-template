@@ -10,10 +10,15 @@ from django.http import HttpResponse
 
 
 def home(request):
-    return render(request, 'home.html')
+    contas = Conta.objects.all()
+
+    return render(request, 'home.html', {
+        'contas': contas
+    })
 
 
 def gerenciar(request):
+    from .bancos import BANCOS
     contas = Conta.objects.all()
     categorias = Categoria.objects.all()
 
@@ -28,7 +33,8 @@ def gerenciar(request):
     return render(request, 'gerenciar.html', {
         'contas': contas,
         'categorias': categorias,
-        'total_contas': total_contas
+        'total_contas': total_contas,
+        'BANCOS': 'BANCOS',
     })
 
 
@@ -93,4 +99,14 @@ def cadastrar_categoria(request):
 
     messages.add_message(request, constants.SUCCESS,
                          f"Categoria criada com sucesso. Id={newCategoria.id}")
+    return redirect('/perfil/gerenciar')
+
+
+def alterar_categoria(request, id):
+    categoria = Categoria.objects.get(pk=id)
+    categoria.essencial = not categoria.essencial
+    categoria.save()
+    # alert disabled to minimize screen flickering
+    # messages.add_message(request, constants.SUCCESS,
+    #                     f"Categoria alterada com sucesso. Id={categoria.id}")
     return redirect('/perfil/gerenciar')

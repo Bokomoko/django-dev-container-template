@@ -47,7 +47,9 @@
         <br>
         <label>Banco</label>
         <select name="banco" class="form-select">
-          <option value="NU">Nubank</option>
+          {%for banco in BANCOS %}
+          <option value="{{ banco['codigo']}}">{{banco['nome']}}</option>
+          {%endfor%}
         </select>
         <br>
         <label>Tipo</label>
@@ -97,7 +99,7 @@
         <div class="lista-contas-main">
           {% for categoria in categorias %}
           <span>{{categoria.categoria}}</span>
-          <a href="#"><img src="{%if categoria.essencial %}  {% static 'perfil/img/check.png' %} {% else %}
+          <a href="/perfil/alterar_categoria/{{categoria.id}}"><img src="{%if categoria.essencial %}  {% static 'perfil/img/check.png' %} {% else %}
             {% static 'perfil/img/exit.png' %}  {% endif %}" width="5%"></a>
 
           <br>
